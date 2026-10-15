@@ -66,7 +66,7 @@ adiante.
 ├── relatorios.js       Apuração de faturamento e cálculo de comissões
 ├── export.js           Geração dos arquivos .xlsx e dos relatórios em PDF
 ├── logo.js             Logomarca vetorizada em SVG
-├── sql/                Migrações do banco de dados, aditivas e versionadas
+├── sql/                Migrações do banco de dados, aditivas e numeradas
 └── docs/               Manual ilustrado de uso e imagens das telas
 ```
 
@@ -78,15 +78,21 @@ adiante.
 
 1. Crie uma conta gratuita em [supabase.com](https://supabase.com) e um novo projeto.
 2. No painel do Supabase, abra **SQL Editor → New query**.
-3. Execute os arquivos da pasta `sql/` **nesta ordem**, um de cada vez:
+3. Execute os arquivos da pasta `sql/` **na ordem numérica**, um de cada vez:
 
    ```
-   sql/estoque.sql             → tabelas de produtos e movimentações
-   sql/atendimento-itens.sql   → colunas de atendimento com vários itens
-   sql/contagens.sql           → tabela de contagens de estoque
+   sql/00-schema.sql             → estrutura completa: tabelas, chaves e índices
+   sql/01-estoque.sql            → produtos e movimentações de estoque
+   sql/02-atendimento-itens.sql  → atendimento com vários serviços e produtos
+   sql/03-contagens.sql          → contagens de estoque com aprovação
    ```
 
-   As migrações são **aditivas**: apenas acrescentam colunas e tabelas, sem apagar dados existentes.
+   O prefixo numérico define a ordem de execução. As migrações são **aditivas**: apenas
+   acrescentam colunas e tabelas, sem apagar dados existentes, e podem ser reexecutadas sem
+   efeito colateral.
+
+   O arquivo `sql/consultas-exemplo.sql` não é uma migração — insere dados fictícios e roda as
+   consultas dos relatórios para conferir o esquema em um banco de testes.
 
 ### 2. Configurar a conexão
 
@@ -148,10 +154,26 @@ sem arrastar a página.
 
 ---
 
+## Modelo de dados
+
+O banco tem doze tabelas, divididas entre cadastros, operação e estoque. As chaves estrangeiras
+seguem duas regras, conforme o que deve acontecer ao excluir um registro: excluir um cliente
+remove seus agendamentos futuros (`cascade`), mas **preserva o histórico de atendimentos**
+(`set null`), que guarda o nome copiado no momento do atendimento. Excluir um atendimento remove a
+entrada correspondente no caixa (`cascade`), para que faturamento e caixa nunca divirjam.
+
+![Modelo de dados](docs/img/07-modelo-dados.png)
+
+O arquivo [`sql/00-schema.sql`](sql/00-schema.sql) traz a estrutura completa, com chaves, índices e
+uma nota explicando as duas desnormalizações deliberadas do modelo.
+
+---
+
 ## Documentação
 
 - **[Manual ilustrado de uso](docs/Manual-Sparta-Barbearia.pdf)** — guia em PDF com imagens das telas
   e linguagem acessível, destinado à equipe da barbearia.
+- **[Modelo de dados em SVG](docs/modelo-dados.svg)** — diagrama em vetor, para ampliar sem perda.
 
 ---
 
