@@ -1,0 +1,17 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Dependências e artefatos (o projeto não usa build, mas evita envio acidental)
+node_modules/
+dist/
+build/
+
+# Credenciais locais
+.env
+.env.local

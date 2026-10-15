@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sparta Barbearia — Gestão</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- SDK do Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Pular para o conteúdo</a>
+
+  <!-- TELA DE LOGIN / SELEÇÃO DE PERFIL -->
+  <div id="login" class="login" role="region" aria-label="Seleção de perfil de acesso"></div>
+
+  <!-- APLICAÇÃO -->
+  <div id="app" class="app" hidden>
+    <aside id="sidebar" class="sidebar" aria-label="Barra lateral de navegação">
+      <div class="rule" aria-hidden="true"></div>
+      <div class="brand">
+        <div id="brandLogo" class="brand-logo"></div>
+        <div>
+          <div class="brand-name">Sparta Barbearia</div>
+          <div class="brand-sub">Gestão</div>
+        </div>
+      </div>
+
+      <!-- Perfil + Sair no TOPO -->
+      <div class="sidebar-user">
+        <span id="perfilNome">Perfil</span>
+        <button class="btn btn-sm" id="btnSair" type="button">Sair</button>
+      </div>
+
+      <nav class="nav" aria-label="Menu principal">
+        <a class="nav-item" href="#dashboard" data-view="dashboard"><span class="ico" aria-hidden="true">▦</span>Dashboard</a>
+        <a class="nav-item" href="#agendamentos" data-view="agendamentos"><span class="ico" aria-hidden="true">🗓</span>Agendamentos</a>
+        <a class="nav-item" href="#atendimentos" data-view="atendimentos"><span class="ico" aria-hidden="true">✔</span>Atendimentos</a>
+        <a class="nav-item" href="#clientes" data-view="clientes"><span class="ico" aria-hidden="true">👤</span>Clientes</a>
+        <a class="nav-item" href="#servicos" data-view="servicos"><span class="ico" aria-hidden="true">✂</span>Serviços</a>
+        <a class="nav-item" href="#combos" data-view="combos"><span class="ico" aria-hidden="true">◈</span>Combos</a>
+        <a class="nav-item" href="#caixa" data-view="caixa"><span class="ico" aria-hidden="true">$</span>Caixa</a>
+        <a class="nav-item" href="#relatorios" data-view="relatorios"><span class="ico" aria-hidden="true">▤</span>Relatórios</a>
+        <a class="nav-item" href="#estoque" data-view="estoque"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 7.5 12 3.5l8.5 4v9L12 20.5l-8.5-4z"/><path d="M3.5 7.5 12 11.6l8.5-4.1M12 11.6v8.9"/></svg></span>Estoque</a>
+        <a class="nav-item" href="#barbeiros" data-view="barbeiros"><span class="ico" aria-hidden="true">💈</span>Barbeiros</a>
+        <a class="nav-item" href="#gerentes" data-view="gerentes"><span class="ico" aria-hidden="true">👥</span>Gerentes</a>
+        <a class="nav-item" href="#backup" data-view="backup"><span class="ico" aria-hidden="true">⇅</span>Backup e segurança</a>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="overlay" aria-hidden="true"></div>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="btn-icon" id="btnMenu" type="button" aria-label="Abrir menu de navegação" aria-controls="sidebar" aria-expanded="false"><span aria-hidden="true">☰</span></button>
+        <h1 class="page-title" id="pageTitle">Dashboard</h1>
+        <div class="topbar-actions" id="topbarActions"></div>
+      </header>
+      <div class="content" id="content" tabindex="-1">
+        <div class="empty">Carregando dados da nuvem…</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head"><h2 id="modalTitle">Título</h2><button class="btn-icon" id="modalClose" type="button" aria-label="Fechar janela"><span aria-hidden="true">✕</span></button></div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-foot" id="modalFoot"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <!-- Scripts do app -->
+  <script src="supabase.js"></script>
+  <script src="seguranca.js"></script>
+  <script src="logo.js"></script>
+  <script src="export.js"></script>
+  <script src="app.js"></script>
+  <script src="relatorios.js"></script>
+  <script src="estoque.js"></script>
+</body>
+</html>
